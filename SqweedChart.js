@@ -23,11 +23,11 @@ export default class SqweedChart {
             const xPos = 10 + elWidth * elIndex
             const yPos = 90 - elHeight
             const textPos = xPos + elWidth / 2
-            return `<rect class="chart-bar" x="${xPos}%" y="${yPos}%" width="${elWidth}%" height="${elHeight}%" fill="${el.color || this.getRandomColor()}" />           
+            return `<rect class="chart-bar" x="${xPos}%" y="${yPos}%" width="${elWidth}%" height="${elHeight}%" fill="${el.color || this.#getRandomColor()}" />           
             <text class="chart-text" x="${textPos}%" y="95%" text-anchor="middle">${el.name || "item" + elIndex}: ${el.value || 0}</text>`
         }).join('')
         this.container.innerHTML = `<svg class="chart-wrapper">
-            ${this.buildYLines(maxValue)}               
+            ${this.#buildYLines(maxValue)}               
             ${elements}
             <style>
                 .chart-wrapper {
@@ -77,7 +77,7 @@ export default class SqweedChart {
             }
         }).join('')
         this.container.innerHTML = `<svg class="chart-wrapper">
-            ${this.buildYLines(maxValue)}               
+            ${this.#buildYLines(maxValue)}               
             ${elements}
             <style>
                 .chart-wrapper {
@@ -119,7 +119,7 @@ export default class SqweedChart {
         let offset = 0
         const elements = this.data.map((el, elIndex) => {
             if (el.value) {
-                const color = el.color || this.getRandomColor()
+                const color = el.color || this.#getRandomColor()
                 const angle = (el.value) / percent
                 const circle = `<circle class="chart-ring" r="57.3" cx="50%" cy="50%"  stroke="${color}" stroke-dasharray="${angle} 360" stroke-dashoffset="-${offset}" />          
                 <text class="chart-text" x="${50 + 27 * Math.cos((offset + angle / 2) * Math.PI / 180)}%" y="${50 + 27 * Math.sin((offset + angle / 2) * Math.PI / 180)}%">${el.name || "item" + elIndex}: ${el.value}</text> `
@@ -155,11 +155,11 @@ export default class SqweedChart {
         </svg>`
     }
 
-    getRandomColor() {
+    #getRandomColor = () => {
         return '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6)
     }
 
-    buildYLines(maxValue) {
+    #buildYLines = (maxValue) => {
         let result =''
         for (let i = 0; i <= 5; i++) {
             result += `<text class="chart-text" x="5%" y="${95 - 20 * i}%">${maxValue * i * 0.25}</text>
